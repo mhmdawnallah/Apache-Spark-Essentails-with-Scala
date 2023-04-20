@@ -1,4 +1,4 @@
-FROM spark-base:latest
+FROM bde2020/spark-base:latest
 
 RUN apt-get update && apt-get install -y dos2unix
 COPY spark-submit.sh /
