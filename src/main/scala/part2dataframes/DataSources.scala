@@ -18,6 +18,10 @@ import org.apache.spark.sql.types.{DateType, DoubleType, LongType, StringType, S
  * 2.3) Options (optional)
  * 2.4) Destination Path
  * 3) If Spark Failed Parsing the data as mentioned in the option it will put null instead (so be careful) because it may leads to misleads results
+ * 4) Parquet is an open-source file format designed for storing and processing large amounts of structured data. It is an efficient columnar storage format that was initially developed as part of the Apache Hadoop ecosystem, but it has since been adopted by other big data processing frameworks, including Apache Spark, Apache Arrow, and Amazon S3.
+      One of the key benefits of Parquet is its efficient storage and query performance. Because Parquet stores data in a columnar format, it can achieve better compression and encoding compared to traditional row-based storage formats, such as CSV or JSON. This can lead to significant storage savings, especially for large datasets with many columns.
+      In addition to its efficient storage, Parquet also supports advanced features such as predicate pushdown, which enables filtering and selection of data at the storage layer before it is read into memory. This can further improve query performance and reduce the amount of data that needs to be processed.
+      Parquet also supports complex data types, including nested data structures such as arrays and maps. This makes it well-suited for processing and analyzing semi-structured data, such as JSON or Avro.
  */
 object DataSources extends App{
   var spark = SparkSession.builder()
@@ -53,7 +57,7 @@ object DataSources extends App{
     .options(sparkOptions)
     .load()
 
-  carsDFWithOptionsMap.show()
+//  carsDFWithOptionsMap.show()
 
   carsDF.write
     .format("json")
@@ -68,8 +72,22 @@ object DataSources extends App{
     .option("allowSingleQuotes", "true")
     .option("compression","uncompressed")
     .json("src/main/resources/data/cars.json")
-  carsDFWithDate.printSchema()
 
+  // CSV Flags
+  val stocksSchema = StructType(Array(
+      StructField("symbol", StringType),
+      StructField("date", StringType),
+      StructField("price", DoubleType)
+    ))
 
+  val stocksDF = spark.read
+    .schema(stocksSchema)
+    .option("header","true")
+    .option("sep", ",")
+    .option("nullValue", "")
+    .csv("src/main/resources/data/stocks.csv")
 
+  carsDF.write
+    .mode(SaveMode.Overwrite)
+    .save("src/main/resources/data/cars.parquet")
 }
