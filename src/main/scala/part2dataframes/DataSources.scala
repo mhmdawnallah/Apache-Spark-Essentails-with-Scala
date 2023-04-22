@@ -90,4 +90,48 @@ object DataSources extends App{
   carsDF.write
     .mode(SaveMode.Overwrite)
     .save("src/main/resources/data/cars.parquet")
+
+  spark.read
+    .text("src/main/resources/data/sampleTextFile.txt")
+    .show()
+
+  val employeesDF = spark.read
+    .format("jdbc")
+    .option("driver", "org.postgresql.Driver")
+    .option("url","jdbc:postgresql://localhost:5432/rtjvm")
+    .option("user", "docker")
+    .option("password", "docker")
+    .option("dbtable","public.employees")
+    .load()
+
+  employeesDF.show()
+
+  val moviesDF = spark.read
+    .format("json")
+    .option("inferSchema", "true")
+    .load("src/main/resources/data/movies.json")
+
+  moviesDF.write
+    .format("csv")
+    .mode(SaveMode.Overwrite)
+    .option("sep","\t")
+    .save("src/main/resources/data/movies.csv")
+
+  moviesDF.write
+    .format("parquet")
+    .mode(SaveMode.Overwrite)
+    .option("compression","snappy")
+    .save("src/main/resources/data/movies.parquet")
+
+  val url = "jdbc:postgresql://localhost:5432/rtjvm"
+  val tableName = "public.movies"
+  val properties = new java.util.Properties()
+  properties.setProperty("user", "docker")
+  properties.setProperty("password", "docker")
+  properties.setProperty("driver", "org.postgresql.Driver")
+
+  moviesDF.write
+    .mode(SaveMode.Overwrite)
+    .jdbc(url, tableName, properties)
+
 }
