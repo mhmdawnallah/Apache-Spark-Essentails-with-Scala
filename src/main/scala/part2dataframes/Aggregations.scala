@@ -19,7 +19,7 @@ object Aggregations extends App{
   val moviesDF = spark.read
     .format("json")
     .option("inferSchema", "true")
-    .load("src/main/resources/data/movies.json")
+    .load("src/main/resources/data/movies.tjson")
 
   testMajorGenresCount(moviesDF)
   testDistinctMajorGenresCount(moviesDF)
