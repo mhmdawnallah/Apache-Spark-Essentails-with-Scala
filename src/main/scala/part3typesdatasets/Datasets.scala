@@ -22,6 +22,18 @@ import part3typesdatasets.Datasets.numbersDF
  *  7.3) In summary, whether Datasets are better or worse for performance compared to DataFrames depends on the use case and the specific implementation. For complex data processing tasks, it may be more beneficial to use DataFrames, while for more straightforward operations, Datasets may offer a more natural programming model and better type safety.
  */
 object Datasets extends App {
+  case class Car(
+                  Name: String,
+                  Miles_per_Gallon: Option[Double],
+                  Cylinders: Long,
+                  Displacement: Double,
+                  Horsepower: Option[Long],
+                  Weight_in_lbs: Long,
+                  Acceleration: Double,
+                  Year: String,
+                  Origin: String
+                )
+
   val spark = SparkSession.builder()
     .appName("Datasets")
     .config("spark.master", "local")
@@ -51,6 +63,7 @@ object Datasets extends App {
   }
 
   def testDatasetOfSimpleDataType(numbersDF: DataFrame): Unit = {
+    import spark.implicits._
     val numbersDS: Dataset[Int] = numbersDF.as[Int]
 
     numbersDS.filter(_ < 100).show()
