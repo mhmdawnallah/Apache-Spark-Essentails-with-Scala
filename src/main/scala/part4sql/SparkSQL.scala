@@ -62,9 +62,9 @@ object SparkSQL extends App {
   def testTransferTablesFromPostgreSQLToSparkSQL(tableNames: List[String]) = tableNames.foreach { tableName =>
     val tableDF = readTable(tableName)
     tableDF.createOrReplaceTempView(tableName)
-    tableDF.write
-      .mode(SaveMode.Overwrite)
-      .saveAsTable(tableName)
+//    tableDF.write
+//      .mode(SaveMode.Overwrite)
+//      .saveAsTable(tableName)
   }
 
   def readTable(tableName: String) = spark.read
