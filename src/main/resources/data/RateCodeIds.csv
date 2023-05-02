@@ -1,0 +1,8 @@
+RatecodeID,Type
+1,credit card
+2,cash
+3,no charge
+4,dispute
+5,unknown
+6,voided
+99,unknown
