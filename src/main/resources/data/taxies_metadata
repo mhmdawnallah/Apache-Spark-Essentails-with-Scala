@@ -1,0 +1,33 @@
+VendorID: An integer representing the taxi vendor that provided the trip. This can be useful for analyzing differences between vendors.
+
+tpep_pickup_datetime: The date and time when the trip started.
+
+tpep_dropoff_datetime: The date and time when the trip ended.
+
+passenger_count: The number of passengers in the taxi during the trip.
+
+trip_distance: The distance of the trip in miles.
+
+RatecodeID: An integer representing the rate code that was used for the trip. Rate codes can vary depending on the type of trip.
+
+store_and_fwd_flag: A string flag indicating whether the trip record was held in vehicle memory before sending to the vendor.
+
+PULocationID: An integer representing the pickup location of the trip, based on the LocationID codes.
+
+DOLocationID: An integer representing the drop-off location of the trip, based on the LocationID codes.
+
+payment_type: An integer representing the payment method used for the trip. Possible values include credit card, cash, and others.
+
+fare_amount: The fare charged for the trip, not including extras, tolls, or tips.
+
+extra: An additional charge for certain conditions, such as rush hour or late night travel.
+
+mta_tax: The tax collected by the state and MTA (Metropolitan Transportation Authority).
+
+tip_amount: The amount of tip given by the passenger.
+
+tolls_amount: The amount of tolls paid during the trip.
+
+improvement_surcharge: A surcharge collected by the taxi industry to improve taxi services.
+
+total_amount: The total amount charged to the passenger, including all fares, extras, tolls, and tips.
